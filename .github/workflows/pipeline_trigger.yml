@@ -11,8 +11,8 @@ jobs:
       - name: Trigger gitlab pipeline
         run: |
           echo Before triggering gitlab pipeline 
-          curl --request POST \
-          --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
-          --form ref=main\
-         "https://gitlab.example.com/api/v4/projects/<project_id>/trigger/pipeline"
+#          curl --request POST \
+#          --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
+#          --form ref=main\
+#         "https://gitlab.example.com/api/v4/projects/<project_id>/trigger/pipeline"
           echo After Triggering gitlab pipeline
