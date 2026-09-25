@@ -11,7 +11,7 @@ jobs:
       - name: Trigger gitlab pipeline
         run: |
           echo Before triggering gitlab pipeline 
-          echo env variable: $GITHUB_REF_NAME"
+          echo env variable: $GITHUB_REF_NAME
           curl --request POST \
             --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
             --form ref=$${{github.ref_name}} \
