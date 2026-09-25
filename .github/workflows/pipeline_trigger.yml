@@ -11,6 +11,7 @@ jobs:
       - name: Trigger gitlab pipeline
         run: |
           echo Before triggering gitlab pipeline 
+          echo Is dubble echo the problem?
 #          curl --request POST \
 #          --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
 #          --form ref=main\
