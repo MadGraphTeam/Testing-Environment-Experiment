@@ -16,6 +16,7 @@ test-job2:
     - echo "which simulates a test that runs 20 seconds longer than test-job1"
     - sleep 20
   artifacts:
+    name: gandalf
     paths:
       - ./
     exclude:
