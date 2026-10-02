@@ -16,3 +16,18 @@ jobs:
             --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
             --form ref=${{github.ref_name}} \
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
+
+
+  get-gitlab-artifacts:
+    runs-on: ubuntu-latest
+    needs: trigger-gitlab
+    steps:
+      - name: requests gitlab artifacts
+        run: |
+          echo Before getting artifacts
+          curl --request GET \
+            --location \
+            --header "PRIVATE-TOKEN: ${{secrets.ARTIFACT_GITLAB_API}}" \
+            --url "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/jobs/artifacts/main/raw/some/release/gandalf.txt?job=test-job2"
+          
+    
