@@ -17,7 +17,6 @@ jobs:
             --form ref=${{github.ref_name}} \
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
 
-
   get-gitlab-artifacts:
     runs-on: ubuntu-latest
     needs: trigger-gitlab
