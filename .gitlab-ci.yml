@@ -14,7 +14,7 @@ test-job2:
   script:
     - echo "This job tests something, but takes more time than test-job1."
     - mkdir -p outputs
-    - echo "This is an artifact :P " > ouputs/gandalf.txt
+    - echo "This is an artifact :P " > outputs/gandalf.txt
   artifacts:
     name: gandalf
     paths:
