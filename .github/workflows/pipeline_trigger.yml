@@ -16,6 +16,25 @@ jobs:
             --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
             --form ref=${{github.ref_name}} \
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
+          echo "Checking GitLab pipeline status..."
+          while true; do
+          STATUS=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.ARTIFACT_GITLAB_API }}" \
+            "https://gitlab.cern.ch/api/v4/projects/${{ secrets.PROJECT_ID }}/pipelines?ref=main&per_page=1" \
+            | jq -r '.[0].status')
+      
+          echo "Current GitLab pipeline status: $STATUS"
+      
+          if [ "$STATUS" = "success" ]; then
+          echo "Pipeline finished successfully!"
+          break
+          elif [ "$STATUS" = "failed" ] || [ "$STATUS" = "canceled" ]; then
+          echo "GitLab pipeline failed or was canceled."
+          exit 1
+          fi
+      
+          echo "Still running... waiting 20 seconds."
+          sleep 20
+          done
 
   get-gitlab-artifacts:
     runs-on: ubuntu-latest
