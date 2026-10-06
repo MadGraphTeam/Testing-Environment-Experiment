@@ -28,5 +28,6 @@ jobs:
             --location \
             --header "PRIVATE-TOKEN: ${{secrets.ARTIFACT_GITLAB_API}}" \
             --url "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/jobs/artifacts/main/raw/some/release/gandalf.txt?job=test-job2"
+          cat gandalf.txt
           
     
