@@ -23,6 +23,7 @@ jobs:
     steps:
       - name: requests gitlab artifacts
         run: |
+          sleep 20 
           echo Before getting artifacts
           curl --request GET \
             --location \
