@@ -33,12 +33,12 @@ jobs:
       - name: T1 some test
         run: echo "run some test... -T1"
 
-  T2-another-test:
-    runs-on: ubuntu-latest
-    needs: T1-another-test
-    steps:
-      - name: T2 some test
-        run: echo "run some test... -T2"
+#  T2-another-test:
+#    runs-on: ubuntu-latest
+#    needs: T1-another-test
+#    steps:
+#      - name: T2 some test
+#        run: echo "run some test... -T2"
 
   T3-another-test:
     runs-on: ubuntu-latest
@@ -47,16 +47,16 @@ jobs:
       - name: T3 some test
         run: echo "run some test... -T3"
 
-  T4-another-test:
-    runs-on: ubuntu-latest
-    needs: T1-another-test
-    steps:
-      - name: T4 some test
-        run: echo "run some test... -T4"
+#  T4-another-test:
+#    runs-on: ubuntu-latest
+#    needs: T1-another-test
+#    steps:
+#      - name: T4 some test
+#        run: echo "run some test... -T4"
 
   T5-another-test:
     runs-on: ubuntu-latest
-    needs: [T2-another-test, T4-another-test]
+    needs: T1-another-test
     steps:
       - name: T5 some test
         run: echo "run some test... -T5"
