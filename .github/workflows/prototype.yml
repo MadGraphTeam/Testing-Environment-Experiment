@@ -56,21 +56,21 @@ jobs:
 
   T5-another-test:
     runs-on: ubuntu-latest
-    needs: [T2-another-test, T4-another-test]
+    needs: [T1-another-test,T2-another-test, T4-another-test]
     steps:
       - name: T5 some test
         run: echo "run some test... -T5"
 
   T6-another-test:
     runs-on: ubuntu-latest
-    needs: T3-another-test
+    needs: [T1-another-test,T3-another-test ]
     steps:
       - name: T6 some test
         run: echo "run some test... -T6"
 
   T7-another-test:
     runs-on: ubuntu-latest
-    needs: [T5-another-test, T6-another-test]
+    needs: [T2-another-test, T4-another-test, T5-another-test, T6-another-test]
     steps:
       - name: T7 some test
         run: echo "run some test... -T7 - end of pipeline :D"
