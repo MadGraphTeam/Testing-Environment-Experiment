@@ -58,8 +58,11 @@ jobs:
           pip install -r requirements.txt
 
       - name: run python script
-        run: python Log_data.py ${{needs.trigger-gitlab.gitlab_id}}
+        run: |
+          echo ${{needs.trigger-gitlab.gitlab_id}}
+          python Log_data.py 15959317
 
+#        run: python Log_data.py ${{needs.trigger-gitlab.gitlab_id}}
 
 
 
