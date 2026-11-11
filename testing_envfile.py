@@ -13,9 +13,9 @@ import sys
 everything = sys.argv
 argument0 = sys.argv[0]
 argument2 = sys.argv[1]
-out_of_bounds = sys.argv[2]
+# out_of_bounds = sys.argv[2]
 
 print(everything)
 print(argument0)
 print(argument2)
-print(out_of_bounds)
+# print(out_of_bounds)
