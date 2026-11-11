@@ -35,11 +35,15 @@ jobs:
   debugging_job_outputs:
       runs-on: ubuntu-latest
       outputs:
-        gitlab_id: ${{ steps.trigger_gitlab.outputs.pipeline_id}}
+        gitlab_id: ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
       steps:
         - name: checking for output saving
+          id: debugging_outputs
           run: |
-            echo "pipeline_id=1234567" >> $GITHUB_OUTPUT
+            echo "PIPELINE_ID=1234567" >> $GITHUB_OUTPUT
+        - name: checking for ouput accessing in step
+          run: | 
+            echo ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
 
       
 
@@ -70,7 +74,7 @@ jobs:
 
       - name: reading output of prior job
         run: |
-          echo ${{needs.trigger-gitlab.gitlab_id}}
+          echo ${{needs.debugging_job_outputs.gitlab_id}}
 
       - name: run debug python script
         run: |
