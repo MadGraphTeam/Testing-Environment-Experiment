@@ -74,7 +74,7 @@ jobs:
 
       - name: reading output of prior job
         env:
-          OUTPUT: ${{needs.debugging_job_outputs.gitlab_id}}
+          OUTPUT: ${{needs.debugging_job_outputs.outputs.gitlab_id}}
         run: |
           echo "the given output is: $OUTPUT"
 
