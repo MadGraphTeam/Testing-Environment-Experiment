@@ -11,7 +11,7 @@ load_dotenv()
 #
 print(os.getenv("PROJECT_ACCESS_TOKEN"))
 # # needed:
-# gl = gitlab.Gitlab(url="https://gitlab.cern.ch", private_token=os.getenv("PROJECT_ACCESS_TOKEN"))
+# gl = gitlab.Gitlab(url="https://gitlab.cern.ch", private_token=os.getenv("GITLAB_API_KEY"))
 # project = gl.projects.get(os.getenv("PROJECT_ID"))
 # # test pipeline 15959317
 # pipeline = project.pipelines.get(sys.argv[1])
