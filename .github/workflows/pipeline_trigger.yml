@@ -59,7 +59,7 @@ jobs:
 
       - name: run debug python script
         run: |
-          python testing_envfile.py
+          python testing_envfile.py 123456
 #
 #      - name: run python script
 #        run: |
