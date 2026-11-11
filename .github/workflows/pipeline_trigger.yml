@@ -15,26 +15,26 @@ jobs:
 #          fail_on_empty: false
 #          sort_keys: false
 
-  trigger-gitlab:
-    runs-on: ubuntu-latest
-    if: contains(github.event.head_commit.message, 'GPU')
-    outputs:
-      gitlab_id: ${{ steps.trigger_gitlab.outputs.pipeline_id}}
-    steps:
-      - name: Trigger gitlab pipeline
-        run: |
-          echo Before triggering gitlab pipeline 
-          echo env variable: $GITHUB_REF_NAME
-          curl --request POST \
-            --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
-            --form ref=${{github.ref_name}} \
-            "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline" 
-          PIPELINE_ID=$(echo "$RESPONSE" | jq '.id') 
-          echo "pipeline_id=$PIPELINE_ID" >> $GITHUB_OUTPUT
+#  trigger-gitlab:
+#    runs-on: ubuntu-latest
+#    if: contains(github.event.head_commit.message, 'GPU')
+#    outputs:
+#      gitlab_id: ${{ steps.trigger_gitlab.outputs.pipeline_id}}
+#    steps:
+#      - name: Trigger gitlab pipeline
+#        run: |
+#          echo Before triggering gitlab pipeline
+#          echo env variable: $GITHUB_REF_NAME
+#          curl --request POST \
+#            --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
+#            --form ref=${{github.ref_name}} \
+#            "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
+#          PIPELINE_ID=$(echo "$RESPONSE" | jq '.id')
+#          echo "pipeline_id=$PIPELINE_ID" >> $GITHUB_OUTPUT
 
   request_gitlab_logs:
     runs-on: ubuntu-latest
-    needs: [trigger-gitlab]
+#    needs: [trigger-gitlab]
     steps:
       - name: checkout code
         uses: actions/checkout@v7
@@ -48,19 +48,22 @@ jobs:
           fail_on_empty: false
           sort_keys: false
 
-      - name: set up python
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.14'
-
-      - name: installing dependencies
-        run: | 
-          pip install -r requirements.txt
-
-      - name: run python script
+      - name: check env file content
         run: |
-          echo ${{needs.trigger-gitlab.gitlab_id}}
-          python Log_data.py 15959317
+            cat .env
+#      - name: set up python
+#        uses: actions/setup-python@v7
+#        with:
+#          python-version: '3.14'
+#
+#      - name: installing dependencies
+#        run: |
+#          pip install -r requirements.txt
+#
+#      - name: run python script
+#        run: |
+#          echo ${{needs.trigger-gitlab.gitlab_id}}
+#          python Log_data.py 15959317
 
 #        run: python Log_data.py ${{needs.trigger-gitlab.gitlab_id}}
 
