@@ -78,10 +78,12 @@ jobs:
         run: |
           echo "the given output is: $OUTPUT"
 
-#      - name: run debug python script
-#        run: |
-#          python testing_envfile.py placeholder
-#
+      - name: run debug python script
+        run: |
+          python testing_envfile.py  ${{needs.debugging_job_outputs.outputs.gitlab_id}}
+
+
+
 #      - name: run python script
 #        run: |
 #          echo ${{needs.trigger-gitlab.gitlab_id}}
