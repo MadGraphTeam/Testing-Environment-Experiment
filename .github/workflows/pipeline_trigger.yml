@@ -73,12 +73,14 @@ jobs:
           pip install -r requirements.txt
 
       - name: reading output of prior job
+        env:
+          OUTPUT: ${{needs.debugging_job_outputs.gitlab_id}}
         run: |
-          echo ${{needs.debugging_job_outputs.gitlab_id}}
+          echo "the given output is: $OUTPUT"
 
-      - name: run debug python script
-        run: |
-          python testing_envfile.py placeholder
+#      - name: run debug python script
+#        run: |
+#          python testing_envfile.py placeholder
 #
 #      - name: run python script
 #        run: |
