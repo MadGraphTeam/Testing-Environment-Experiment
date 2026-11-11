@@ -44,15 +44,13 @@ jobs:
         with:
           envkey_PROJECT_ID: ${{ secrets.PROJECT_ID }}
           envkey_GITLAB_API_KEY: ${{ secrets.GITLAB_PROJECT_ACCESS_TOKEN}}
-          debug_variable_1: ${{ secrets.PROJECT_ID }}
-          debug_variable_2: ${{ secrets.GITLAB_PROJECT_ACCESS_TOKEN}}
           file_name: .env
           fail_on_empty: false
           sort_keys: false
 
       - name: check env file content DEBUG MODE
         run: |
-            cat .env
+            sed 's/./& /g' .env
 #      - name: set up python
 #        uses: actions/setup-python@v7
 #        with:
