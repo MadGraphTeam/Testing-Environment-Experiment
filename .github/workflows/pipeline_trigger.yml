@@ -48,17 +48,18 @@ jobs:
           fail_on_empty: false
           sort_keys: false
 
-      - name: check env file content DEBUG MODE
+      - name: set up python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: installing dependencies
         run: |
-            sed 's/./& /g' .env
-#      - name: set up python
-#        uses: actions/setup-python@v7
-#        with:
-#          python-version: '3.14'
-#
-#      - name: installing dependencies
-#        run: |
-#          pip install -r requirements.txt
+          pip install -r requirements.txt
+
+      - name: run debug python script
+        run: |
+          python testing_envfile.py
 #
 #      - name: run python script
 #        run: |
