@@ -7,9 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, 'GPU')
     outputs:
-      gitlab_id: ${{ steps.trigger_gitlab.outputs.pipeline_id}}
+      gitlab_id: ${{ steps.gitlab_pipeline_id.outputs.pipeline_id}}
     steps:
       - name: Trigger gitlab pipeline
+        id: gitlab_pipeline_id
         run: |
           echo Before triggering gitlab pipeline
           echo env variable: $GITHUB_REF_NAME
@@ -19,6 +20,9 @@ jobs:
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
           PIPELINE_ID=$(echo "$RESPONSE" | jq '.id')
           echo "pipeline_id=$PIPELINE_ID" >> $GITHUB_OUTPUT
+      - name: checking for output accessing in step
+        run: | 
+          echo ${{ steps.gitlab_pipeline_id.outputs.pipeline_id}}
 
 #  debugging_job_outputs:
 #      runs-on: ubuntu-latest
