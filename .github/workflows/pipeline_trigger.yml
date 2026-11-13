@@ -27,18 +27,19 @@ jobs:
 
 #          echo "pipeline_id=$PIPELINE_ID" >> $GITHUB_OUTPUT
 
-#  debugging_job_outputs:
-#      runs-on: ubuntu-latest
-#      outputs:
-#        gitlab_id: ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
-#      steps:
-#        - name: checking for output saving
-#          id: debugging_outputs
-#          run: |
-#            echo "PIPELINE_ID=1234567" >> $GITHUB_OUTPUT
-#        - name: checking for ouput accessing in step
-#          run: |
-#            echo ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
+  debugging_job_outputs:
+      runs-on: ubuntu-latest
+      outputs:
+        gitlab_id2: ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
+      steps:
+        - name: checking for output saving
+          id: debugging_outputs
+          run: |
+            echo "PIPELINE_ID=1234567" >> $GITHUB_OUTPUT
+        - name: checking for ouput accessing in step
+          run: |
+            echo to see if this also masked 
+            echo ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
 
 #  request_gitlab_logs:
 #    runs-on: ubuntu-latest
