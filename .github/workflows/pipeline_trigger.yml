@@ -23,6 +23,7 @@ jobs:
           echo "pipeline_id=244498" >> $GITHUB_OUTPUT
       - name: checking for output accessing in step
         run: | 
+          echo looking to see if the problemis in gettign the pipeline id or saving the id ... 
           echo ${{ steps.gitlab_pipeline_id.outputs.pipeline_id}}
 
 #  debugging_job_outputs:
