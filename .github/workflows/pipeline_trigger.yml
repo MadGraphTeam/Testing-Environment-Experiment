@@ -19,6 +19,7 @@ jobs:
             --form ref=${{github.ref_name}} \
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
           GITLAB_PIPELINE_ID=$(echo "$RESPONSE" | jq '.')
+          echo is there even a response? : $RESPONSE: end of response
           echo pipleine id check: $GITLAB_PIPELINE_ID : end of id 
           echo "PIPELINE_ID=15959317" >> $GITHUB_OUTPUT
       - name: checking for output accessing in step
