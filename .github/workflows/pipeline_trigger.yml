@@ -18,7 +18,8 @@ jobs:
             --form token=${{secrets.TRIGGER_GITLAB_PIPELINE}} \
             --form ref=${{github.ref_name}} \
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline"
-          PIPELINE_ID=$(echo "$RESPONSE" | jq '.id')
+          GITLAB_PIPELINE_ID=$(echo "$RESPONSE" | jq '.id')
+          echo pipleine id check: $GITLAB_PIPELINE_ID : end of id 
           echo "PIPELINE_ID=15959317" >> $GITHUB_OUTPUT
       - name: checking for output accessing in step
         run: |
