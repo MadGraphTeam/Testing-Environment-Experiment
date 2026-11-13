@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.event.head_commit.message, 'GPU')
     outputs:
-      gitlab_id: ${{ steps.gitlab_pipeline_id.outputs.pipeline_id}}
+      gitlab_id: ${{ steps.gitlab_pipeline_id.outputs.PIPELINE_ID}}
     steps:
       - name: Trigger gitlab pipeline
         id: gitlab_pipeline_id
@@ -19,69 +19,67 @@ jobs:
             --form ref=${{github.ref_name}} \
             "https://gitlab.cern.ch/api/v4/projects/${{secrets.PROJECT_ID}}/trigger/pipeline")
           GITLAB_PIPELINE_ID=$(echo "$RESPONSE" | jq '.id')
-          echo is there even a response? : $RESPONSE: end of response
           echo pipleine id check: $GITLAB_PIPELINE_ID : end of id 
-          echo "PIPELINE_ID=$RESPONSE" >> $GITHUB_OUTPUT
-      - name: checking for output accessing in step
+          echo "PIPELINE_ID=$GITLAB_PIPELINE_ID" >> $GITHUB_OUTPUT
+#      - name: checking for output accessing in step
+#        run: |
+#          echo looking to see if the problemis in gettign the pipeline id or saving the id
+#          echo ${{ steps.gitlab_pipeline_id.outputs.PIPELINE_ID}}
+##          echo "pipeline_id=$PIPELINE_ID" >> $GITHUB_OUTPUT
+
+#  debugging_job_outputs:
+#      runs-on: ubuntu-latest
+#      outputs:
+#        gitlab_id2: ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
+#      steps:
+#        - name: checking for output saving
+#          id: debugging_outputs
+#          run: |
+#            echo "PIPELINE_ID=1234567" >> $GITHUB_OUTPUT
+#        - name: checking for ouput accessing in step
+#          run: |
+#            echo to see if this also masked
+#            echo ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
+
+  request_gitlab_logs:
+    runs-on: ubuntu-latest
+    needs: [trigger-gitlab]
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v7
+
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v2.0.3
+        with:
+          envkey_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          envkey_GITLAB_API_KEY: ${{ secrets.GITLAB_PROJECT_ACCESS_TOKEN}}
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
+
+      - name: set up python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: installing dependencies
         run: |
-          echo looking to see if the problemis in gettign the pipeline id or saving the id 
-          echo ${{ steps.gitlab_pipeline_id.outputs.PIPELINE_ID}}
+          pip install -r requirements.txt
 
-#          echo "pipeline_id=$PIPELINE_ID" >> $GITHUB_OUTPUT
-
-  debugging_job_outputs:
-      runs-on: ubuntu-latest
-      outputs:
-        gitlab_id2: ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
-      steps:
-        - name: checking for output saving
-          id: debugging_outputs
-          run: |
-            echo "PIPELINE_ID=1234567" >> $GITHUB_OUTPUT
-        - name: checking for ouput accessing in step
-          run: |
-            echo to see if this also masked 
-            echo ${{ steps.debugging_outputs.outputs.PIPELINE_ID}}
-
-#  request_gitlab_logs:
-#    runs-on: ubuntu-latest
-##    needs: [trigger-gitlab]
-#    steps:
-#      - name: checkout code
-#        uses: actions/checkout@v7
-#
-#      - name: Create .env file
-#        uses: SpicyPizza/create-envfile@v2.0.3
-#        with:
-#          envkey_PROJECT_ID: ${{ secrets.PROJECT_ID }}
-#          envkey_GITLAB_API_KEY: ${{ secrets.GITLAB_PROJECT_ACCESS_TOKEN}}
-#          file_name: .env
-#          fail_on_empty: false
-#          sort_keys: false
-#
-#      - name: set up python
-#        uses: actions/setup-python@v7
-#        with:
-#          python-version: '3.14'
-#
-#      - name: installing dependencies
+#      - name: reading output of prior job
+#        env:
+#          OUTPUT: ${{needs.debugging_job_outputs.outputs.gitlab_id}}
 #        run: |
-#          pip install -r requirements.txt
-#
-##      - name: reading output of prior job
-##        env:
-##          OUTPUT: ${{needs.debugging_job_outputs.outputs.gitlab_id}}
-##        run: |
-##          echo "the given output is: $OUTPUT"
-#
-##      - name: run debug python script
-##        run: |
-##          python testing_envfile.py  ${{needs.debugging_job_outputs.outputs.gitlab_id}}
-#      - name: run python script
+#          echo "the given output is: $OUTPUT"
+
+#      - name: run debug python script
 #        run: |
-#          echo ${{needs.trigger-gitlab.outputs.gitlab_id}}
-#          python Log_data.py  ${{needs.trigger-gitlab.outputs.gitlab_id}}
-#
-##        run: python Log_data.py ${{needs.trigger-gitlab.gitlab_id}}
-#
-#
+#          python testing_envfile.py  ${{needs.debugging_job_outputs.outputs.gitlab_id}}
+      - name: run python script
+        run: |
+          echo ${{needs.trigger-gitlab.outputs.gitlab_id}}
+          python Log_data.py  ${{needs.trigger-gitlab.outputs.gitlab_id}}
+
+#        run: python Log_data.py ${{needs.trigger-gitlab.gitlab_id}}
+
+
